@@ -1,16 +1,39 @@
 const faker = require('faker');
 
+const levelsList = [
+  { 
+    level: 1,
+    xp: 1000
+  },
+  { 
+    level: 2,
+    xp: 2000
+  },
+  { 
+    level: 3,
+    xp: 3000
+  },
+  { 
+    level: 4,
+    xp: 4000
+  }
+];
+
 module.exports = function(id) {
   faker.seed(Number(id));
 
+  const points = faker.random.number({ min: 0, max: levelsList[levelsList.length-1].xp });
+  const currentTier = levelslist.find((levelItem) => {
+    return points > levelItem.xp
+  });
   const obj = {
     id: id < 10 ? '0' + id : String(id) ,
     photo: faker.image.avatar(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     userName: faker.internet.userName(),
-    level: faker.random.number({ min: 1, max: 4 }),
-    points: faker.random.number({ min: 0, max: 999 }), 
+    level: currentTier.level + 1,
+    points: points, 
     homeStudio: {
       name: faker.company.companyName(),
       location: {
@@ -32,7 +55,7 @@ module.exports = function(id) {
     upcomingClasses: generateClasses(Math.floor(Math.random() * 5), true),
     friends: generateFriends(Math.floor(Math.random() * 10))
   }
-
+  console.log(points, obj.level)
   return obj;
 };
 
@@ -94,3 +117,4 @@ function generateFriends(count) {
 
   return friendsList;
 };
+
