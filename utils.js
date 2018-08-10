@@ -23,7 +23,7 @@ module.exports = function(id) {
   faker.seed(Number(id));
 
   const points = faker.random.number({ min: 0, max: levelsList[levelsList.length-1].xpLimit});
-  const currentTier = levelsList.find((levelItem, i) => {
+  const currentLevel = levelsList.find((levelItem, i) => {
     return points < levelItem.xpLimit || i >= levelsList.length-1;
   });
   console.log(points)
@@ -33,8 +33,9 @@ module.exports = function(id) {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     userName: faker.internet.userName(),
-    level: currentTier.level,
     points: points, 
+    level: currentLevel.level,
+    levelsList,
     homeStudio: {
       name: faker.company.companyName(),
       location: {
