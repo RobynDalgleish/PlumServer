@@ -1,11 +1,9 @@
+require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const faker = require('faker');
-
-
 const generateData = require('./utils');
-
+app.use('/assets', express.static('assets'));
 app.use(cors());
 app.get('/', (req, res) => res.send('Hello World!'));
 
@@ -23,7 +21,6 @@ app.get('/api/profiles', (req, res) => {
   }
   res.json(profiles)
 });
-
 
 // Get a specific profile
 app.get('/api/profiles/:id', (req, res) => {
