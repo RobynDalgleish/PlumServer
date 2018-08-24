@@ -122,7 +122,7 @@ module.exports = function(id) {
     return points < levelItem.xpLimit || i >= levelsList.length-1;
   });
   const obj = {
-    id: id < 10 ? '0' + id : String(id) ,
+    id: String(id) ,
     photo: faker.image.avatar(),
     firstName: faker.name.firstName(),
     // lastName: faker.name.lastName(),
