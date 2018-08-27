@@ -68,28 +68,36 @@ const challenges = [
     name: 'Early Riser',
     points: 400,
     rewardName: 'Reserve a Shower',
-    badgeDescription: 'Attend 10 morning classes between 6 am - 8:30am'
+    badgeDescription: 'Attend 10 morning classes between 6 am - 8:30am',
+    date: faker.date.future(),
+    rewardDescription: 'Reserve a shower before your class!'
   },
   {
     badgePhoto: makeImagePath('/beYou.png'),
     name: '#BeYou',
     points: 200,
     rewardName: 'Free Swag',
-    badgeDescription: 'Take a photo of yourself working out with the #BeYou on Instagram and tag our studio'
+    badgeDescription: 'Take a photo of yourself working out with the #BeYou on Instagram and tag our studio',
+    date: faker.date.future(),
+    rewardDescription: 'Pick up a stylish tank at your gym\'s desk!'
   },
   {
     badgePhoto: makeImagePath('/inviteABuddy.png'),
     name: 'Invite a Buddy',
     points: 300,
     rewardName: 'Priority Booking',
-    badgeDescription: 'Bring a friend to the studio for their first class'
+    badgeDescription: 'Bring a friend to the studio for their first class',
+    date: faker.date.future(),
+    rewardDescription: 'Book a class before anyone else!'
   },
   {
     badgePhoto: makeImagePath('/30in30.png'),
     name: '30 in 30',
     points: 500,
     rewardName: 'Towel Service',
-    badgeDescription: 'Attend 30 classes within 30 days'
+    badgeDescription: 'Attend 30 classes within 30 days',
+    date: faker.date.future(),
+    rewardDescription: 'Eucalyptus towels to cool down with!'
   },
 ];
 
@@ -125,20 +133,16 @@ module.exports = function(id) {
     id: String(id) ,
     photo: faker.image.avatar(),
     firstName: faker.name.firstName(),
-    // lastName: faker.name.lastName(),
-    // userName: faker.internet.userName(),
     points: points, 
     level: currentLevel.level,
     levelsList,
     homeStudio: generateStudio(),
-    // favClass: faker.random.word(),
-    // favInstructor: faker.name.findName(),
     badges:generateBadges(3),
-    // pastChallenges: generateChallenges(Math.floor(Math.random() * 5)),
     currentChallenges: generateChallenges(Math.floor(Math.random() * 4), true),
-    // pastClasses: generateClasses(Math.floor(Math.random() * 5)),
     upcomingClasses: generateClasses(Math.floor(Math.random() * 5), true),
-    // friends: generateFriends(Math.floor(Math.random() * 10))
+    rewards: generateRewards(Math.floor(Math.random() * 4)),
+    rewardsInProgress: generateRewardsInProgress(Math.floor(Math.random() * 4)),
+    activity: generateActivity(Math.floor(Math.random() * 4)),
   }
   return obj;
 };
@@ -168,7 +172,6 @@ function generateBadges(count) {
   return badgesList;
 };
 
-// function generateChallenges(count, isFuture) {
   function generateChallenges(count) {
     const challengesList = [
       {
@@ -178,10 +181,10 @@ function generateBadges(count) {
         userPoints: 400
       },
       {
-        name: '#BeYou',
-        rewardName: 'Free Swag',
-        pointsValue: 200,
-        userPoints: 150,
+        name: '30 in 30',
+        rewardName: 'Towel Service',
+        pointsValue: 500,
+        userPoints: 430
       },
     ];
     for (let i = 0; i < count; i++) {
@@ -192,9 +195,6 @@ function generateBadges(count) {
       const userPoints = Math.floor(Math.random() * pointsValue) + 1;
       challengesList.push({
             name,
-            // achievementId: faker.random.number(),
-            // achievementDate: isFuture ? faker.date.future() : faker.date.past(),
-            // achievementDate: faker.date.future(),
             rewardName,
             pointsValue,
             userPoints
@@ -204,7 +204,6 @@ function generateBadges(count) {
     return challengesList;
   };
 
-// function generateClasses(count, isFuture) {
   function generateClasses(count) {
   const classesList = [
     {
@@ -220,24 +219,79 @@ function generateBadges(count) {
     classesList.push({
       nameOfClass,
       instructor: faker.name.firstName(),
-      // date: isFuture ? faker.date.future() : faker.date.past(),  
-      date  
+      date 
     });
   };
 
   return classesList;
 };
 
-// function generateFriends(count) {
-//   const friendsList = [];
-//   for (let i = 0; i < count; i++) {
-//     friendsList.push({
-//       photo: faker.image.avatar(),
-//       userName: faker.internet.userName(),
-//       id: faker.random.number()
-//     });
-//   };
+function generateRewards(count) {
+  const rewardsList = [
+    {
+      nameOfReward: 'Free Swag',
+      date: momentRandom("2018-09-30 23:00", "2018-09-01 10:00"),
+      descriptionOfReward: 'Pick up a stylish tank at your gym\'s desk!',  
+    }
+  ];
+  for (let i = 0; i < count; i++) {
+    const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
+    const nameOfReward = challenges[randomChallengeIndex].rewardName
+    const date = momentRandom("2018-09-30 23:00", "2018-09-01 10:00")
+    const descriptionOfReward = challenges[randomChallengeIndex].rewardDescription
+    rewardsList.push({
+      nameOfReward,
+      date,
+      descriptionOfReward,
+    });
+  };
 
-//   return friendsList;
-// };
+  return rewardsList;
+};
+
+function generateRewardsInProgress(count) {
+  const rewardsInProgressList = [
+    {
+      nameOfReward: 'Free Swag',
+      pointsValue: 200,
+      userPoints: 144
+    }
+  ];
+  for (let i = 0; i < count; i++) {
+    const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
+    const nameOfReward = challenges[randomChallengeIndex].rewardName
+    const pointsValue = challenges[randomChallengeIndex].points;
+    const userPoints = Math.floor(Math.random() * pointsValue) + 1;
+    rewardsInProgressList.push({
+      nameOfReward,
+      pointsValue,
+      userPoints
+    });
+  };
+
+  return rewardsInProgressList;
+};
+
+function generateActivity(count) {
+  const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
+  const challengeName = challenges[randomChallengeIndex].name;
+  const activityList = [
+    {
+      photo: faker.image.avatar(),
+      userName: faker.internet.userName(),
+      challengeName,
+      date: faker.date.past()
+    }
+  ];
+  for (let i = 0; i < count; i++) {
+    activityList.push({
+      photo: faker.image.avatar(),
+      userName: faker.internet.userName(),
+      challengeName,
+      date: momentRandom("2018-08-26 10:00", "2018-08-15 23:00")
+    });
+  };
+
+  return activityList;
+};
 
