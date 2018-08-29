@@ -70,7 +70,7 @@ const challenges = [
     rewardName: 'Reserve a Shower',
     badgeDescription: 'Attend 10 morning classes between 6 am - 8:30am',
     date: faker.date.future(),
-    rewardDescription: 'Reserve a shower before your class!'
+    rewardDescription: 'Reserve a shower before your class, and never have to wait!'
   },
   {
     badgePhoto: makeImagePath('/beYou.png'),
@@ -79,7 +79,7 @@ const challenges = [
     rewardName: 'Free Swag',
     badgeDescription: 'Take a photo of yourself working out with the #BeYou on Instagram and tag our studio',
     date: faker.date.future(),
-    rewardDescription: 'Pick up a stylish tank at your gym\'s desk!'
+    rewardDescription: 'Pick up a free stylish tank at your gym\'s desk!'
   },
   {
     badgePhoto: makeImagePath('/inviteABuddy.png'),
@@ -88,7 +88,7 @@ const challenges = [
     rewardName: 'Priority Booking',
     badgeDescription: 'Bring a friend to the studio for their first class',
     date: faker.date.future(),
-    rewardDescription: 'Book a class before anyone else!'
+    rewardDescription: 'Book a class before anyone else, and never miss out!'
   },
   {
     badgePhoto: makeImagePath('/30in30.png'),
@@ -97,7 +97,7 @@ const challenges = [
     rewardName: 'Towel Service',
     badgeDescription: 'Attend 30 classes within 30 days',
     date: faker.date.future(),
-    rewardDescription: 'Eucalyptus towels to cool down with!'
+    rewardDescription: 'Complimentary eucalyptus towels to cool down with! So refreshing!'
   },
 ];
 
@@ -137,12 +137,13 @@ module.exports = function(id) {
     level: currentLevel.level,
     levelsList,
     homeStudio: generateStudio(),
-    badges:generateBadges(3),
+    badges:generateBadges(15),
     currentChallenges: generateChallenges(Math.floor(Math.random() * 4), true),
     upcomingClasses: generateClasses(Math.floor(Math.random() * 5), true),
     rewards: generateRewards(Math.floor(Math.random() * 4)),
     rewardsInProgress: generateRewardsInProgress(Math.floor(Math.random() * 4)),
-    activity: generateActivity(Math.floor(Math.random() * 4)),
+    invites: generateInvites(Math.floor(Math.random() * 5)),
+    notifications: generateNotifications(Math.floor(Math.random() * 5))
   }
   return obj;
 };
@@ -231,7 +232,7 @@ function generateRewards(count) {
     {
       nameOfReward: 'Free Swag',
       date: momentRandom("2018-09-30 23:00", "2018-09-01 10:00"),
-      descriptionOfReward: 'Pick up a stylish tank at your gym\'s desk!',  
+      descriptionOfReward: 'Pick up a free stylish tank at your gym\'s desk!',  
     }
   ];
   for (let i = 0; i < count; i++) {
@@ -272,19 +273,19 @@ function generateRewardsInProgress(count) {
   return rewardsInProgressList;
 };
 
-function generateActivity(count) {
-  const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
-  const challengeName = challenges[randomChallengeIndex].name;
-  const activityList = [
+function generateInvites(count) {
+  const invitesList = [
     {
       photo: faker.image.avatar(),
       userName: faker.internet.userName(),
-      challengeName,
+      challengeName: 'Invite a Buddy',
       date: faker.date.past()
     }
   ];
   for (let i = 0; i < count; i++) {
-    activityList.push({
+    const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
+    const challengeName = challenges[randomChallengeIndex].name;
+    invitesList.push({
       photo: faker.image.avatar(),
       userName: faker.internet.userName(),
       challengeName,
@@ -292,6 +293,29 @@ function generateActivity(count) {
     });
   };
 
-  return activityList;
+  return invitesList;
+};
+
+function generateNotifications(count) {
+  const notificationsList = [
+    {
+      photo: faker.image.avatar(),
+      userName: faker.internet.userName(),
+      challengeName: '30 in 30',
+      date: faker.date.past()
+    }
+  ];
+  for (let i = 0; i < count; i++) {
+    const randomChallengeIndex = (Math.floor(Math.random() * challenges.length))
+    const challengeName = challenges[randomChallengeIndex].name;
+    notificationsList.push({
+      photo: faker.image.avatar(),
+      userName: faker.internet.userName(),
+      challengeName,
+      date: momentRandom("2018-08-26 10:00", "2018-08-15 23:00")
+    });
+  };
+
+  return notificationsList;
 };
 
