@@ -179,13 +179,15 @@ function generateBadges(count) {
         name: 'Early Riser',
         rewardName: 'Reserve a Shower',
         pointsValue: 400,
-        userPoints: 400
+        userPoints: 400,
+        descriptionOfChallenge: 'Attend 10 morning classes between 6 am - 8:30am'
       },
       {
         name: '30 in 30',
         rewardName: 'Towel Service',
         pointsValue: 500,
-        userPoints: 430
+        userPoints: 430,
+        descriptionOfChallenge:'Attend 30 classes within 30 days'
       },
     ];
     for (let i = 0; i < count; i++) {
@@ -194,11 +196,13 @@ function generateBadges(count) {
       const rewardName = challenges[randomChallengeIndex].rewardName;
       const pointsValue = challenges[randomChallengeIndex].points;
       const userPoints = Math.floor(Math.random() * pointsValue) + 1;
+      const descriptionOfChallenge = challenges[randomChallengeIndex].badgeDescription;
       challengesList.push({
             name,
             rewardName,
             pointsValue,
-            userPoints
+            userPoints,
+            descriptionOfChallenge
       });
     };
   
